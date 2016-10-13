@@ -156,7 +156,8 @@ public class JmsSpout extends BaseRichSpout implements MessageListener {
 		if(this.tupleProducer == null){
 			throw new IllegalStateException("JMS Tuple Producer has not been set.");
 		}
-		Integer topologyTimeout = (Integer)conf.get("topology.message.timeout.secs");
+		Long longTimeout = (Long) conf.get("topology.message.timeout.secs");
+		Integer topologyTimeout = longTimeout.intValue();
 		// TODO fine a way to get the default timeout from storm, so we're not hard-coding to 30 seconds (it could change)
 		topologyTimeout = topologyTimeout == null ? 30 : topologyTimeout;
 		if( (topologyTimeout.intValue() * 1000 )> this.recoveryPeriod){
